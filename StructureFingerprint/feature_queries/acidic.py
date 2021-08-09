@@ -17,5 +17,18 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with this program; if not, see <https://www.gnu.org/licenses/>.
 #
-from .linear import *
-from .morgan import *
+from CGRtools.periodictable import ListElement
+from CGRtools.containers import QueryContainer
+
+queries = []
+
+q = QueryContainer()
+q.add_atom(ListElement(['C', 'S']), hybridization=2)
+q.add_atom(ListElement(['O', 'S', 'P']), hybridization=2)
+q.add_atom('O', neighbors=1)
+q.add_bond(1, 2, 2)
+q.add_bond(1, 3, 1)
+queries.append(q)
+
+
+__all__ = ['queries']

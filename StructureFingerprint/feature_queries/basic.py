@@ -17,5 +17,33 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with this program; if not, see <https://www.gnu.org/licenses/>.
 #
-from .linear import *
-from .morgan import *
+from CGRtools.containers import QueryContainer
+
+queries, banned = [], []
+
+q = QueryContainer()
+q.add_atom('N', charge=1)
+queries.append(q)
+
+q = QueryContainer()
+q.add_atom('N', charge=0)
+q.add_atom('A', hybridization=4)
+q.add_bond(1, 2, 1)
+queries.append(q)
+
+q = QueryContainer()
+q.add_atom('N', charge=0, neighbors=(1, 2, 3), heteroatoms=0)
+q.add_atom('C', hybridization=(1, 2, 3))
+q.add_bond(1, 2, 1)
+queries.append(q)
+
+q = QueryContainer()
+q.add_atom('N', charge=0)
+q.add_atom('C')
+q.add_atom('O')
+q.add_bond(1, 2, 1)
+q.add_bond(2, 3, 2)
+banned.append(q)
+
+
+__all__ = ['queries', 'banned']

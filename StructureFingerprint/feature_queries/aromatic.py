@@ -17,5 +17,13 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with this program; if not, see <https://www.gnu.org/licenses/>.
 #
-from .linear import *
-from .morgan import *
+from CGRtools.containers import QueryContainer
+
+queries = []
+
+q = QueryContainer()
+q.add_atom('A', hybridization=4)
+queries.append(q)
+
+
+__all__ = ['queries']
