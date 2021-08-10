@@ -26,7 +26,7 @@ from .halogen import queries as halogen_queries
 
 
 __all__ = [
-    'acceptor_banned', 'acceptor_banned',
+    'acceptor_queries', 'acceptor_banned',
     'acidic_queries',
     'aromatic_queries',
     'basic_queries', 'basic_banned',
