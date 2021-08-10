@@ -24,6 +24,7 @@ from math import log2
 from numpy import zeros, uint8
 from pkg_resources import get_distribution
 from typing import Collection, List, Dict, Tuple, Set, Deque, Union
+from .pharmacophore import Features
 
 
 cgr_version = get_distribution('CGRtools').version
@@ -42,9 +43,10 @@ else:
         ...
 
 
-class LinearFingerprint(TransformerMixin, BaseEstimator):
+class LinearFingerprint(TransformerMixin, BaseEstimator, Features):
     def __init__(self, min_radius: int = 1, max_radius: int = 4, length: int = 1024,
-                 number_active_bits: int = 2, number_bit_pairs: int = 4, include_hydrogens: bool = False):
+                 number_active_bits: int = 2, number_bit_pairs: int = 4,
+                 include_hydrogens: bool = False, with_features: bool = False):
         """
         Linear fragments fingerprints.
         Transform molecule or CGR structures into fingerprints based on linear fragments descriptors.
@@ -69,6 +71,7 @@ class LinearFingerprint(TransformerMixin, BaseEstimator):
         self.number_active_bits = number_active_bits
         self.number_bit_pairs = number_bit_pairs
         self.include_hydrogens = include_hydrogens
+        self.with_features = with_features
 
     def fit(self, x, y=None):
         return self
@@ -162,8 +165,11 @@ class LinearFingerprint(TransformerMixin, BaseEstimator):
             raise TypeError('MoleculeContainer or CGRContainer expected')
 
         if isinstance(molecule, MoleculeContainer) and not self.include_hydrogens:
-            atoms = {idx: tuple_hash((atom.isotope or 0, atom.atomic_number, atom.charge, atom.is_radical))
-                     for idx, atom in molecule.atoms()}
+            if not self.with_features:
+                atoms = {idx: tuple_hash((atom.isotope or 0, atom.atomic_number, atom.charge, atom.is_radical))
+                         for idx, atom in molecule.atoms()}
+            else:
+                atoms = {idx: x for idx, x in self.features(molecule)}
         else:
             atoms = {idx: int(atom) for idx, atom in molecule.atoms()}
 
