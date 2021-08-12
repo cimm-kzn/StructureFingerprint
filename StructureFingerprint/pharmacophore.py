@@ -31,7 +31,7 @@ class Features:
                 continue
             first, others = qrs[0], qrs[1:]
             first = self.matched_ids(mol, first)
-            first.union(*(self.matched_ids(mol, q) for q in others))
+            first = first.union(*(self.matched_ids(mol, q) for q in others))
             id_sets[name] = first
 
         bins = [

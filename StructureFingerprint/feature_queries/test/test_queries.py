@@ -38,16 +38,19 @@ more_nitro = smiles('[C:10](=[O:11])([NH2:12])[c:3]1[cH:4][c:5]([N:7]=[N+:8]=[N-
 
 
 def test_banned_acceptor():
-    carboxyl_q, *others = acceptor_banned
+    f = frankensteins_fiend
+    carboxyl_q, amide_like, os_n_arom, os_c_n_arom = acceptor_banned
     assert main_atom_ids(mol, carboxyl_q) == {3, }
-    assert all(frankensteins_fiend > q for q in others)
+    assert main_atom_ids(f, os_n_arom) == {1, }
+    assert main_atom_ids(f, os_c_n_arom) == {6, }
 
 
 def test_allowed_acceptor():
     aromatic_n, aromatic_ox_sulf, *others = acceptor_queries
     assert main_atom_ids(frankensteins_fiend, aromatic_n) == {2, }
     assert main_atom_ids(frankensteins_fiend, aromatic_ox_sulf) == {1, 6}
-    assert all(mol > q for q in others)
+    assert main_atom_ids(mol, acceptor_queries[2]) == {3, 5}
+    assert main_atom_ids(mol, acceptor_queries[3]) == {8, 11}
 
 
 def test_acidic():
@@ -68,6 +71,7 @@ def test_basic():
     assert main_atom_ids(more_nitro, aniline_n) == {7, 13}
     assert main_atom_ids(more_nitro, sp3_n) == {12, }
     assert main_atom_ids(more_nitro, amide) == {12, }
+    assert main_atom_ids(mol, sp3_n) == {8, 11}
 
 
 def test_donor():

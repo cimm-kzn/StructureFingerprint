@@ -32,7 +32,7 @@ q.add_bond(1, 2, 1)
 queries.append(q)
 
 q = QueryContainer()
-q.add_atom('N', charge=0, neighbors=(1, 2, 3), heteroatoms=0)
+q.add_atom('N', charge=0, hybridization=1, heteroatoms=0)
 q.add_atom('C', hybridization=(1, 2, 3))
 q.add_bond(1, 2, 1)
 queries.append(q)
